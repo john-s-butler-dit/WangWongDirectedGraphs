@@ -1,0 +1,117 @@
+%\documentclass[tikz, border=10pt]{standalone}
+\documentclass[10pt,a4paper]{article}
+\usepackage{tikz}
+\usetikzlibrary{arrows,snakes,backgrounds,shapes.geometric}
+\begin{document} 
+    
+
+\begin{tikzpicture}[transform canvas={scale=2.0},->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+  thick,main node/.style={circle,fill=blue!20,draw, font=\sffamily\Large\bfseries,minimum size=20mm}]
+\node[main node] at (0, 0) (1) {$1$}; 
+\node[main node,fill=red!20] at (4, -1.5) (I)  {$I$};
+\node[main node,fill=blue!20] at (0, -4) (2) [ below of=1] {$2$};
+%% PATHS
+%% Recurrent path
+  \path[every node/.style={font=\sffamily\small, 		fill=white,inner sep=1pt}]  		(1) edge [loop above] node[midway] {$w_{+}$} (1);
+ 
+  \path[every node/.style={font=\sffamily\small, 		fill=white,inner sep=1pt}]  		(2) edge [loop below] node[midway] {$w_{+}$} (2);
+ 
+ 
+  \path[every node/.style={font=\sffamily\small,
+  		fill=white,inner sep=1pt}]   (1) edge [bend left=-25] node[below] {$w_{12}$} (2);
+   \path[every node/.style={font=\sffamily\small,
+  		fill=white,inner sep=1pt}]   (2) edge [bend left=-35] node[above] {$w_{21}$} (1);
+
+   \path[every node/.style={font=\sffamily\small,
+  		fill=white,inner sep=1pt}]   (1) edge [bend right=-35] node[above] {$w_{1I}$} (I);
+
+ \path[every node/.style={font=\sffamily\small,
+  		fill=white,inner sep=1pt}]    (2) edge [bend left=-20] node[below] {$w_{2I}$} (I);
+
+
+\draw[-o] (I) edge  [bend right=-10]  node[below] {$w_{I1}$} (1);
+\draw[-o] (I) edge  [bend left=-10]  node[below] {$w_{I2}$}  (2);
+
+  \path[every node/.style={font=\sffamily\small,
+  		fill=white,inner sep=1pt}]   (-2,0) edge  node[above] {$I_1$} (1);
+   \path[every node/.style={font=\sffamily\small,
+  		fill=white,inner sep=1pt}]   (-2,-3) edge  node[above] {$I_2$} (2); 		
+\end{tikzpicture} 
+
+\newpage
+Input Output Equation
+\[
+    \phi(I_{syn})=\frac{c_{E,I}I_{syn}-I_{E,I}}{1-exp[-g_{E,I}(c_{E,I}I_{syn}-I_{E,I})]} 
+\]
+
+\section{11 Equation Model}
+Selective 1
+\begin{equation} \tau_{r} \frac{dr_1}{dt}=-r_1+\phi(I_{syn,1}) \end{equation}
+Selective 2
+\begin{equation} \tau_{r} \frac{dr_2}{dt}=-r_i+\phi(I_{syn,2}) \end{equation}
+Non-selective
+\begin{equation} \tau_{r} \frac{dr_{NS}}{dt}=-r_i+\phi(I_{syn,NS}) \end{equation}
+Inhibitory population
+\begin{equation} \tau_{r} \frac{dr_I}{dt}=-r_I+\phi(I_{syn,I}) \end{equation}
+AMPA population
+\begin{equation}  \frac{dS_{AMPA,1}}{dt}=-\frac{S_{AMPA,1}}{\tau_{AMPA}}+r_1 \end{equation}
+
+\begin{equation}  \frac{dS_{AMPA,2}}{dt}=-\frac{S_{AMPA,2}}{\tau_{AMPA}}+r_2 \end{equation}
+\begin{equation} \frac{dS_{AMPA,NS}}{dt}=-\frac{S_{AMPA,NS}}{\tau_{AMPA}}+r_{NS} \end{equation}
+
+NMDA population
+\begin{equation}  \frac{dS_{NMDA,1}}{dt}=-\frac{S_{NMDA,1}}{\tau_{NMDA}}+(1-S_{NMDA,1})F(\psi(r_1)) \end{equation}
+Simplified as 
+\[ \frac{dS_{NMDA,1}}{dt}=-\frac{S_{NMDA,1}}{\tau_{NMDA}}+(1-S_{NMDA,1})\gamma r_1 \]
+
+\begin{equation} \tau_{r} \frac{dS_{NMDA,2}}{dt}=-\frac{S_{NMDA,2}}{\tau_{NMDA}}+(1-S_{NMDA,2})F(\psi(r_2)) \end{equation}
+\begin{equation} \tau_{r} \frac{dS_{NMDA,NS}}{dt}=-\frac{S_{NMDA,NS}}{\tau_{NMDA}}+(1-S_{NMDA,NS})F(\psi(r_{NS})) \end{equation}
+
+GABA Population
+\begin{equation} \tau_{r} \frac{dS_{GABA}}{dt}=-\frac{S_{GABA}}{\tau_{GABA}}+r_I \end{equation}
+
+\newpage
+
+\begin{tikzpicture}[transform canvas={scale=1.0},->,>=stealth',shorten >=1pt,auto,node distance=3cm,
+  thick,main node/.style={circle,fill=blue!20,draw, font=\sffamily\Large\bfseries,minimum size=20mm},large node/.style={ellipse,fill=gray!10,draw, font=\sffamily\Large\bfseries,
+  minimum width = 8cm, 
+    minimum height = 10cm}]
+
+\node[large node] at (2, -1.5) (5) {}; 
+\node[main node] at (0, 0) (1) {$1$}; 
+\node[main node,fill=red!20] at (4, -1.5) (I)  {$I$};
+\node[main node,fill=blue!20] at (0, -4) (2) [ below of=1] {$2$};
+\node[main node,fill=red!20] at (8, -1.5) (R)  {$R$};
+%% PATHS
+%% Recurrent path
+  \path[every node/.style={font=\sffamily\small,inner sep=1pt}]  		(1) edge [loop above] node[midway] {$w_{+}$} (1);
+ 
+  \path[every node/.style={font=\sffamily\small, 		inner sep=1pt}]  		(2) edge [loop below] node[midway] {$w_{+}$} (2);
+ 
+ 
+  \path[every node/.style={font=\sffamily\small,
+  		inner sep=1pt}]   (1) edge [bend left=-25] node[below] {$w_{12}$} (2);
+   \path[every node/.style={font=\sffamily\small,
+  		inner sep=1pt}]   (2) edge [bend left=-35] node[above] {$w_{21}$} (1);
+
+   \path[every node/.style={font=\sffamily\small,
+  		inner sep=1pt}]   (1) edge [bend right=-35] node[above] {$w_{1I}$} (I);
+
+ \path[every node/.style={font=\sffamily\small,
+  		inner sep=1pt}]    (2) edge [bend left=-20] node[below] {$w_{2I}$} (I);
+
+\path[every node/.style={font=\sffamily\small,
+  		inner sep=1pt}]    (5) edge [bend left=-20] node[below] {} (R);
+
+\draw[-o] (R) edge  [bend right=10]  node[below] {} (5);
+
+\draw[-o] (I) edge  [bend right=-10]  node[below] {$w_{I1}$} (1);
+\draw[-o] (I) edge  [bend left=-10]  node[below] {$w_{I2}$}  (2);
+
+  \path[every node/.style={font=\sffamily\small,
+  		inner sep=1pt}]   (-2,0) edge  node[above] {$I_1$} (1);
+   \path[every node/.style={font=\sffamily\small,
+  		inner sep=1pt}]   (-2,-3) edge  node[above] {$I_2$} (2); 		
+\end{tikzpicture} 
+
+\end{document}
